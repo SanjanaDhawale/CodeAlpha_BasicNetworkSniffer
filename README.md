@@ -174,7 +174,7 @@ Computer Science Engineering (AI & ML)
 
 GitHub: https://github.com/SanjanaDhawale
 
-LinkedIn: *linkedin.com/in/sanjana-dhawale-5a388928bAdd your LinkedIn profile URL here)*
+LinkedIn: *linkedin.com/in/sanjana-dhawale-5a388928b
 
 ---
 
