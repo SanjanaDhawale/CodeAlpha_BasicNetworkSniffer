@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>PacketVision Dashboard</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<header class="dashboard-header">
+    <div class="header-right">
+        <div class="live-clock">
+
+            <i class="fa-solid fa-clock"></i>
+
+            <span id="liveClock">00:00:00</span>
+
+        </div>
+    </div>
+    <div class="header-left">
+
+        <h1>🛡️ PacketVision</h1>
+
+        <p>Real-Time Network Traffic Analysis Dashboard</p>
+
+        <small>Developed by Sanjana Dhawale</small>
+
+    </div>
+
+    <div class="mode-toggle">
+
+    <button id="demoMode" class="active-mode">
+        Demo Mode
+    </button>
+
+    <button id="liveMode">
+        Live Mode
+    </button>
+
+     </div>
+
+</header>
+
+<div class="mode-status">
+
+    <span class="dot"id="modeDot"></span>
+
+    <span id="modeText">DEMO MODE</span>
+
+</div>
+
+<section class="stats">
+
+<div class="card">
+
+<h3>Total Packets</h3>
+
+<h1 id="packetCount">1254</h1>
+
+</div>
+
+<div class="card">
+
+<h3>TCP</h3>
+
+<h1 id="tcpCount">721</h1>
+
+</div>
+
+<div class="card">
+
+<h3>UDP</h3>
+
+<h1 id="udpCount">312</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Alerts</h3>
+
+<h1 id="alertCount">3</h1>
+
+</div>
+<div class="card">
+
+    <h3>Packets/sec</h3>
+
+    <h1 id="packetSpeed">0</h1>
+
+</div>
+
+</section>
+
+
+<section class="table-section">
+
+    <div class="table-header">
+
+        <h2>Live Packet Monitor</h2>
+
+        <div class="table-controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="🔍 Search IP or Protocol..."
+            >
+
+            <select id="protocolFilter">
+
+    <option value="ALL">All Protocols</option>
+
+    <option value="TCP">TCP</option>
+
+    <option value="UDP">UDP</option>
+
+    <option value="HTTPS">HTTPS</option>
+
+    <option value="DNS">DNS</option>
+
+    <option value="HTTP">HTTP</option>
+
+</select>
+<input
+    type="text"
+    id="sourceFilter"
+    placeholder="Source IP"
+>
+
+<input
+    type="text"
+    id="destinationFilter"
+    placeholder="Destination IP"
+>
+<select id="statusFilter">
+
+    <option value="ALL">All Status</option>
+
+    <option value="Safe">Safe</option>
+
+    <option value="Monitoring">Monitoring</option>
+
+    <option value="Warning">Warning</option>
+
+</select>
+
+<button id="exportBtn">
+    <i class="fa-solid fa-download"></i>
+    Export CSV
+</button>
+<button id="pauseBtn">
+    <i class="fa-solid fa-pause"></i>
+    Pause
+</button>
+
+<button id="resumeBtn">
+    <i class="fa-solid fa-play"></i>
+    Resume
+</button>
+<button id="clearBtn">
+    <i class="fa-solid fa-trash"></i>
+    Clear
+</button>
+
+        </div>
+
+    </div>
+
+    <table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Time</th>
+
+<th>Source</th>
+
+<th>Destination</th>
+
+<th>Protocol</th>
+
+<th>Size</th>
+
+</tr>
+
+</thead>
+
+<tbody id="packetTable">
+
+<tr>
+
+<td>1</td>
+
+<td>20:15:11</td>
+
+<td>192.168.31.59</td>
+
+<td>142.250.xxx.xxx</td>
+
+<td>TCP</td>
+
+<td>512 B</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>20:15:12</td>
+
+<td>192.168.31.59</td>
+
+<td>8.8.8.8</td>
+
+<td>UDP</td>
+
+<td>74 B</td>
+
+</tr>
+
+<tr>
+
+<td>3</td>
+
+<td>20:15:14</td>
+
+<td>192.168.31.59</td>
+
+<td>104.18.xxx.xxx</td>
+
+<td>HTTPS</td>
+
+<td>680 B</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+
+<section class="bottom-panels">
+
+    <!-- Protocol Chart -->
+    <div class="panel">
+
+        <h2>
+            <i class="fa-solid fa-chart-pie"></i>
+            Protocol Distribution
+        </h2>
+
+        <canvas id="protocolChart"></canvas>
+
+    </div>
+    <div class="panel">
+
+        <h2>
+            <i class="fa-solid fa-chart-line"></i>
+            Live Traffic
+        </h2>
+
+        <canvas id="trafficChart"></canvas>
+
+    </div>
+
+    <!-- Live Alerts -->
+    <div class="panel">
+
+        <h2>
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            Recent Alerts
+        </h2>
+
+        <div id="alertContainer">
+
+            <p style="color:#94A3B8;">
+                Waiting for packets...
+            </p>
+
+        </div>
+
+    </div>
+    <div class="panel">
+
+    <h2>
+        <i class="fa-solid fa-ruler"></i>
+        Packet Size Statistics
+    </h2>
+
+    <div class="top-ip-row">
+
+        <span>Average</span>
+
+        <strong id="avgPacketSize">0 B</strong>
+
+    </div>
+
+    <div class="top-ip-row">
+
+        <span>Largest</span>
+
+        <strong id="maxPacketSize">0 B</strong>
+
+    </div>
+
+    <div class="top-ip-row">
+
+        <span>Smallest</span>
+
+        <strong id="minPacketSize">0 B</strong>
+
+    </div>
+
+</div>
+<div class="panel">
+
+    <h2>
+        <i class="fa-solid fa-chart-column"></i>
+        Packet Size Histogram
+    </h2>
+
+    <canvas id="packetHistogram"></canvas>
+
+</div>
+</section>
+
+
+<div class="panel">
+
+    <h2>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Activity Timeline
+    </h2>
+
+    <div id="timelineContainer">
+
+        <p class="timeline-empty">
+            Waiting for activity...
+        </p>
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/traffic.js') }}"></script>
+<!-- <script src="{{ url_for('static', filename='js/topDestinations.js') }}"></script> -->
+<script src="{{ url_for('static', filename='js/packetSize.js') }}"></script>
+<script src="{{ url_for('static', filename='js/captureControl.js') }}"></script>
+<script src="{{ url_for('static', filename='js/clearDashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/liveClock.js') }}"></script>
+<script src="{{ url_for('static', filename='js/packetHistogram.js') }}"></script>
+<!-- ==========================
+     Packet Details Modal
+========================== -->
+
+<div id="packetModal" class="modal">
+
+    <div class="modal-content">
+
+        <span id="closeModal">&times;</span>
+
+        <h2>📦 Packet Details</h2>
+
+        <div id="packetDetails"></div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

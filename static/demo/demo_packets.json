@@ -1,0 +1,66 @@
+[
+  {
+    "time": "20:15:11",
+    "source": "192.168.31.59",
+    "destination": "142.250.190.78",
+    "protocol": "TCP",
+    "size": "512 B",
+    "status": "Safe"
+  },
+  {
+    "time": "20:15:12",
+    "source": "192.168.31.59",
+    "destination": "8.8.8.8",
+    "protocol": "UDP",
+    "size": "74 B",
+    "status": "Monitoring"
+  },
+  {
+    "time": "20:15:14",
+    "source": "192.168.31.59",
+    "destination": "104.18.20.11",
+    "protocol": "HTTPS",
+    "size": "680 B",
+    "status": "Safe"
+  },
+  {
+    "time": "20:15:18",
+    "source": "192.168.31.59",
+    "destination": "151.101.1.69",
+    "protocol": "HTTP",
+    "size": "325 B",
+    "status": "Warning"
+  },
+  {
+    "time": "20:15:20",
+    "source": "192.168.31.59",
+    "destination": "13.107.42.14",
+    "protocol": "DNS",
+    "size": "128 B",
+    "status": "Safe"
+  },
+  {
+    "time": "20:15:24",
+    "source": "192.168.31.59",
+    "destination": "172.217.160.110",
+    "protocol": "HTTPS",
+    "size": "920 B",
+    "status": "Safe"
+  },
+  {
+    "time": "20:15:28",
+    "source": "192.168.31.59",
+    "destination": "140.82.121.4",
+    "protocol": "TCP",
+    "size": "455 B",
+    "status": "Monitoring"
+  },
+  {
+    "time": "20:15:31",
+    "source": "192.168.31.59",
+    "destination": "20.189.173.9",
+    "protocol": "HTTPS",
+    "size": "611 B",
+    "status": "Safe"
+  }
+]
